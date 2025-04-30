@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Encomendas DataBIT</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #2b2d31;
+            color: #ffffff;
+        }
+        .form-container {
+            background-color: #1e1f22;
+            border-radius: 10px;
+        }
+        .btn-submit {
+            background-color: #5865f2;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            background-color: #4752c4;
+        }
+        .link {
+            color: #00aff4;
+            transition: all 0.3s ease;
+        }
+        .link:hover {
+            color: #0095d9;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="form-container p-8 max-w-2xl w-full shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center">
+            <i class="fas fa-box-open mr-2"></i>Sistema de Encomendas DataBIT
+        </h1>
+        
+        <form id="orderForm" class="space-y-4">
+            <div>
+                <label for="discord" class="block mb-2 font-medium">
+                    <i class="fab fa-discord mr-2"></i>Seu @ do Discord
+                </label>
+                <input type="text" id="discord" name="discord" required
+                    class="w-full px-4 py-2 bg-[#313338] border border-[#404249] rounded-md focus:outline-none focus:ring-2 focus:ring-[#00aff4]"
+                    placeholder="exemplo#1234">
+            </div>
+            
+            <div>
+                <label for="userId" class="block mb-2 font-medium">
+                    <i class="fas fa-id-card mr-2"></i>Seu ID do Discord
+                </label>
+                <input type="text" id="userId" name="userId" required
+                    class="w-full px-4 py-2 bg-[#313338] border border-[#404249] rounded-md focus:outline-none focus:ring-2 focus:ring-[#00aff4]"
+                    placeholder="123456789012345678">
+            </div>
+            
+            <div>
+                <label for="projectType" class="block mb-2 font-medium">
+                    <i class="fas fa-list-ul mr-2"></i>Tipo de Projeto
+                </label>
+                <select id="projectType" name="projectType" required
+                    class="w-full px-4 py-2 bg-[#313338] border border-[#404249] rounded-md focus:outline-none focus:ring-2 focus:ring-[#00aff4]">
+                    <option value="" disabled selected>Selecione o tipo de projeto</option>
+                    <option value="Site">Site</option>
+                    <option value="API">API</option>
+                    <option value="Bot Discord">Bot Discord</option>
+                    <option value="API + Site">API + Site</option>
+                    <option value="API + Site + Bot">API + Site + Bot</option>
+                    <option value="Site + Bot">Site + Bot</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="description" class="block mb-2 font-medium">
+                    <i class="fas fa-align-left mr-2"></i>Descrição da Encomenda
+                </label>
+                <textarea id="description" name="description" rows="5" required
+                    class="w-full px-4 py-2 bg-[#313338] border border-[#404249] rounded-md focus:outline-none focus:ring-2 focus:ring-[#00aff4]"
+                    placeholder="Descreva detalhadamente o que você precisa..."></textarea>
+            </div>
+            
+            <div class="pt-4">
+                <button type="submit" class="btn-submit w-full py-3 rounded-md font-bold">
+                    <i class="fas fa-paper-plane mr-2"></i>Enviar Encomenda
+                </button>
+            </div>
+        </form>
+        
+        <div class="mt-8 text-sm space-y-2">
+            <p>
+                <i class="fas fa-file-contract mr-2"></i>
+                <a href="https://termos.redebots.shop/" target="_blank" class="link">Termos de Serviço da DataBIT</a>
+            </p>
+            <p>
+                <i class="fab fa-discord mr-2"></i>
+                <a href="https://discord.gg/AhcHfUpNeM" target="_blank" class="link">Discord da DataBIT</a>
+            </p>
+            <p>
+                <i class="fab fa-github mr-2"></i>
+                <a href="https://github.com/LucasDesignerF" target="_blank" class="link">Meu Repositório no GitHub</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
+            
+            const discord = document.getElementById('discord').value;
+            const userId = document.getElementById('userId').value;
+            const projectType = document.getElementById('projectType').value;
+            const description = document.getElementById('description').value;
+            
+            const webhookUrl = 'https://discord.com/api/webhooks/1366938454201733241/6NAbHckH7g0n4mAHWsZjBa4eNHfQ2IWwONrw0zO8zQFrigdVv19Aqcx0U3FGfz7lKhRL';
+            
+            const embed = {
+                title: "Nova Encomenda DataBIT",
+                color: 0x2b2d31, // Cor #2b2d31 em decimal (43,45,49 em RGB)
+                fields: [
+                    {
+                        name: "Discord",
+                        value: discord,
+                        inline: true
+                    },
+                    {
+                        name: "ID do Usuário",
+                        value: userId,
+                        inline: true
+                    },
+                    {
+                        name: "Tipo de Projeto",
+                        value: projectType,
+                        inline: true
+                    },
+                    {
+                        name: "Descrição",
+                        value: description
+                    }
+                ],
+                timestamp: new Date().toISOString()
+            };
+            
+            const payload = {
+                content: `Nova encomenda de <@${userId}> (${discord})`,
+                embeds: [embed]
+            };
+            
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    alert('Encomenda enviada com sucesso! Entraremos em contato em breve.');
+                    document.getElementById('orderForm').reset();
+                } else {
+                    throw new Error('Erro ao enviar a encomenda');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao enviar a encomenda. Por favor, tente novamente.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Enviar Encomenda';
+            }
+        });
+    </script>
+</body>
+</html>
